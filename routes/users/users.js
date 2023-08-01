@@ -7,6 +7,10 @@ function getAllUsers(req, res) {
     })
 }
 
+function createUser(req, res) {
+    
+}
+
 module.exports = {
 	getAllUsers
 }
