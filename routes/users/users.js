@@ -37,9 +37,19 @@ router.post('/register', async (req, res) => {
         city,
         zipCode
     } = req.body
+
+    // Check if user already exists
+    const { rows: userRows } = await query('SELECT username FROM users WHERE username = $1', [username])
+    if (userRows[0]) {
+        return res.send('Username already exists.')
+    }
+
+    // Create records in the 'users' and in the 'profiles' tables.
     await query('INSERT INTO profiles (first_name, last_name, street, number, city, zip_code) VALUES ($1, $2, $3, $4, $5, $6)', [firstName, lastName, street, number, city, zipCode])
-    const { rows } = await query('SELECT id FROM profiles WHERE first_name = $1 AND last_name = $2 AND street = $3', [firstName, lastName, street])
-    await query('INSERT INTO users (username, password, profile_id) VALUES ($1, $2, $3)', [username, password, rows[0].id])
+    const { rows: profileRows } = await query('SELECT id FROM profiles WHERE first_name = $1 AND last_name = $2 AND street = $3', [firstName, lastName, street])
+    await query('INSERT INTO users (username, password, profile_id) VALUES ($1, $2, $3)', [username, password, profileRows[0].id])
+
+    // Redirect back to login page
     res.redirect('/users/login')
 })
 
