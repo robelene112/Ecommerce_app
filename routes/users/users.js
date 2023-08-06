@@ -5,8 +5,9 @@ const path = require('path')
 const router = new Router()
 
 router.get('/', async (req, res) => {
-    const { rows } = await query('SELECT * FROM users')
-    res.send(rows)
+    const { rows: userRows } = await query('SELECT * FROM users')
+    const { rows: profileRows } = await query('SELECT * FROM profiles')
+    res.json({users: userRows, profiles: profileRows})
 })
 
 router.get('/login', async (req, res) => {
@@ -17,7 +18,7 @@ router.post('/login', async (req, res) => {
     const { username, password } = req.body
     const { rows } = await query('SELECT * FROM users WHERE username = $1 AND password = $2', [username, password])
     if (!rows[0]) {
-        return res.status(401).send('Wrong username/password, please refresh the page and try again.')
+        return res.status(403).send('Wrong username/password, please refresh the page and try again.')
     }
     return res.send('Succes!')
 })
