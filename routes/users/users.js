@@ -20,7 +20,12 @@ router.post('/login', async (req, res) => {
     if (!rows[0]) {
         return res.status(403).send('Wrong username/password, please refresh the page and try again.')
     }
-    return res.send('Succes!')
+    req.session.authenticated = true
+    req.session.user = {
+        username,
+        password
+    }
+    res.redirect('/profile')
 })
 
 router.get('/register', async (req, res) => {

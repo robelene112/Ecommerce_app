@@ -1,7 +1,9 @@
-const { router } = require('./users/users')
+const { router: usersRouter } = require('./users/users')
+const { router: profileRouter } = require('./profile/profile')
 
 const mountRouters = (app) => {
-    app.use('/users', router)
+    app.use('/users', usersRouter)
+    app.use('/profile', profileRouter)
 }
 
 module.exports = {
