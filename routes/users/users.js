@@ -25,6 +25,8 @@ router.post('/login', async (req, res) => {
         username,
         password
     }
+    console.log('In users/login: ')
+    console.log(req.session)
     res.redirect('/profile')
 })
 

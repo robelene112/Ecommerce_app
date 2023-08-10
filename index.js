@@ -1,12 +1,14 @@
 const express = require('express')
 const session = require('express-session')
 const { mountRouters } = require('./routes/index.js')
+const path = require('path')
 require('dotenv').config()
 
 // Setup express app
 const app = express()
 const port = 3000
 
+// Parse requests and populate req.body
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
@@ -28,6 +30,7 @@ app.use(session({
 // Mount routes
 mountRouters(app)
 
-app.listen(port, () => {
+app.listen(port, "0.0.0.0", (err) => {
+    if (err) throw err
     console.log(`Server listening on port: ${port}`)
 })
