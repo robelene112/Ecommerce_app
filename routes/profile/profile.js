@@ -4,8 +4,6 @@ const path = require('path')
 const router = new Router()
 
 function ensureAuthenticated(req, res, next) {
-    console.log('In ensureAuthenticated:')
-    console.log(req.session)
     if (req.session.authenticated) {
         return next()
     } else {
@@ -17,8 +15,33 @@ router.get('/', ensureAuthenticated, (req, res) => {
     res.sendFile(path.join(__dirname, '/profile.html'))
 })
 
-router.get('/userprofile', ensureAuthenticated, (req, res) => {
+router.get('/userinfo', ensureAuthenticated, (req, res) => {
     res.sendFile(path.join(__dirname, './user_profile/user_profile.html')) 
+})
+
+router.post('/userinfo', ensureAuthenticated, (req, res) => {
+    const {
+        username,
+        password,
+        first_name,
+        last_name,
+        street,
+        number,
+        city,
+        zip_code
+    } = req.body
+    console.log(req.body)
+    res.sendFile(path.join(__dirname, '/profile.html'))
+})
+
+router.get('/profilejs', ensureAuthenticated, (req, res) => {
+    res.sendFile(path.join(__dirname, './user_profile/user_profile.js')) 
+})
+
+router.get('/cookiedata', ensureAuthenticated, (req, res) => {
+    const sessionData = req.session.user
+    console.log(req.session.user)
+    res.json(sessionData)
 })
 
 module.exports = {

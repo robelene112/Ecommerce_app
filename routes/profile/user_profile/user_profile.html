@@ -4,16 +4,36 @@
 <head>
     <meta charset="UTF-8">
     <title>User/profile info</title>
-    <script defer src='./user_profile.js' type='application/javascript'></script>
+    <script defer src='./profilejs' type='text/javascript'></script>
 </head>
 
 <body>
-    <form action="">
-        <label for='username'>Username: </label>
+    <form action="" method="post">
+        <label for='username'>username: </label>
         <input type="text" name='username' id='username'>
         <br>
         <label for='password'>Password: </label>
         <input type="text" name='password' id='password'>
+        <br>
+        <label for='first_name'>First name: </label>
+        <input type="text" name='first_name' id='first_name'>
+        <br>
+        <label for='last_name'>Last name: </label>
+        <input type="text" name='last_name' id='last_name'>
+        <br>
+        <label for='street'>Street: </label>
+        <input type="text" name='street' id='street'>
+        <br>
+        <label for='number'>Number: </label>
+        <input type="text" name='number' id='number'>
+        <br>
+        <label for='city'>City: <label>
+        <input type="text" name='city' id='city'>
+        <br>
+        <label for='zip_code'>Zip code: </label>
+        <input type="text" name='zip_code' id='zip_code'>
+        <br>
+        <input type='submit' value='Update user info'>
     </form>
 </body>
 
