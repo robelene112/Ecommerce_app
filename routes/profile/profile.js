@@ -26,10 +26,9 @@ router.delete('/', ensureAuthenticated, async (req, res) => {
     // Clear session data
     req.session.destroy((err) => {
         if (err) throw err
+        // Redirect back to login page, mostly handled in client-side javascript
+        res.status(204).send()
     })
-
-    // Redirect back to login page
-    res.send('')
 })
 
 router.get('/userinfo', ensureAuthenticated, (req, res) => {
