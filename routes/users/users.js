@@ -11,7 +11,10 @@ router.get('/', async (req, res) => {
 })
 
 router.get('/login', async (req, res) => {
-    res.sendFile(path.join(__dirname, '/login.html'))
+    req.session.destroy((err) => {
+        if (err) throw err
+        res.sendFile(path.join(__dirname, '/login.html'))
+    })
 })
 
 router.post('/login', async (req, res) => {
