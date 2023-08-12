@@ -4,19 +4,11 @@ const { query } = require('../../db/index')
 
 const router = new Router()
 
-function ensureAuthenticated(req, res, next) {
-    if (req.session.authenticated) {
-        return next()
-    } else {
-        res.send('Not logged in yet')
-    }
-}
-
-router.get('/', ensureAuthenticated, (req, res) => {
+router.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '/profile.html'))
 })
 
-router.delete('/', ensureAuthenticated, async (req, res) => {
+router.delete('/', async (req, res) => {
     // Remove user from database
     const userId = req.session.user.id
     const profileId = req.session.user.profile_id
@@ -31,11 +23,11 @@ router.delete('/', ensureAuthenticated, async (req, res) => {
     })
 })
 
-router.get('/userinfo', ensureAuthenticated, (req, res) => {
+router.get('/userinfo', (req, res) => {
     res.sendFile(path.join(__dirname, './user_profile/user_profile.html'))
 })
 
-router.post('/userinfo', ensureAuthenticated, async (req, res) => {
+router.post('/userinfo', async (req, res) => {
     const {
         username,
         password,
@@ -57,15 +49,15 @@ router.post('/userinfo', ensureAuthenticated, async (req, res) => {
     res.redirect('/profile')
 })
 
-router.get('/profilejs', ensureAuthenticated, (req, res) => {
+router.get('/profilejs', (req, res) => {
     res.sendFile(path.join(__dirname, './user_profile/user_profile.js'))
 })
 
-router.get('/deleteaccountjs', ensureAuthenticated, (req, res) => {
+router.get('/deleteaccountjs', (req, res) => {
     res.sendFile(path.join(__dirname, './delete_account.js'))
 })
 
-router.get('/cookiedata', ensureAuthenticated, (req, res) => {
+router.get('/cookiedata', (req, res) => {
     const sessionData = req.session.user
     res.json(sessionData)
 })
