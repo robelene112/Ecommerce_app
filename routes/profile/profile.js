@@ -16,8 +16,24 @@ router.get('/', ensureAuthenticated, (req, res) => {
     res.sendFile(path.join(__dirname, '/profile.html'))
 })
 
+router.delete('/', ensureAuthenticated, async (req, res) => {
+    // Remove user from database
+    const userId = req.session.user.id
+    const profileId = req.session.user.profile_id
+    await query('DELETE FROM users WHERE id = $1', [userId])
+    await query('DELETE FROM profiles WHERE id = $1', [profileId])
+
+    // Clear session data
+    req.session.destroy((err) => {
+        if (err) throw err
+    })
+
+    // Redirect back to login page
+    res.send('')
+})
+
 router.get('/userinfo', ensureAuthenticated, (req, res) => {
-    res.sendFile(path.join(__dirname, './user_profile/user_profile.html')) 
+    res.sendFile(path.join(__dirname, './user_profile/user_profile.html'))
 })
 
 router.post('/userinfo', ensureAuthenticated, async (req, res) => {
@@ -39,16 +55,19 @@ router.post('/userinfo', ensureAuthenticated, async (req, res) => {
         number = $4,
         city = $5,
         zip_code = $6`, [first_name, last_name, street, number, city, zip_code])
-    res.sendFile(path.join(__dirname, '/profile.html'))
+    res.redirect('/profile')
 })
 
 router.get('/profilejs', ensureAuthenticated, (req, res) => {
-    res.sendFile(path.join(__dirname, './user_profile/user_profile.js')) 
+    res.sendFile(path.join(__dirname, './user_profile/user_profile.js'))
+})
+
+router.get('/deleteaccountjs', ensureAuthenticated, (req, res) => {
+    res.sendFile(path.join(__dirname, './delete_account.js'))
 })
 
 router.get('/cookiedata', ensureAuthenticated, (req, res) => {
     const sessionData = req.session.user
-    console.log(req.session.user)
     res.json(sessionData)
 })
 

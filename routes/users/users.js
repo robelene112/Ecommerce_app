@@ -35,6 +35,8 @@ router.post('/login', async (req, res) => {
     // Populate session data
     req.session.authenticated = true
     req.session.user = {
+        id: userRows[0].id,
+        profile_id: userRows[0].profile_id,
         username,
         password,
         first_name,
@@ -45,8 +47,8 @@ router.post('/login', async (req, res) => {
         zip_code
     }
 
-        // Redirect to user profile
-        res.redirect('/profile')
+    // Redirect to user profile
+    res.redirect('/profile')
 })
 
 router.get('/register', async (req, res) => {
