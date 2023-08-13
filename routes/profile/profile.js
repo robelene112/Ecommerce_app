@@ -16,7 +16,7 @@ router.delete('/', async (req, res) => {
         await query('DELETE FROM users WHERE id = $1', [userId])
         await query('DELETE FROM profiles WHERE id = $1', [profileId])
     } catch (err) {
-        throw err
+        console.log(err) 
     }
     // Clear session data
     req.session.destroy((err) => {
@@ -52,7 +52,7 @@ router.post('/userinfo', async (req, res) => {
         zip_code = $6`, [first_name, last_name, street, number, city, zip_code])
         res.redirect('/profile')
     } catch (err) {
-        throw err
+        console.log(err) 
     }
 })
 

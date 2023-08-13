@@ -20,7 +20,7 @@ deleteButton.addEventListener('click', async () => {
             await fetch('http://localhost:3000/profile', { method: 'DELETE' })
             window.location.href = 'http://localhost:3000/users/login'
         } catch (err) {
-            throw err
+            console.log(err) 
         }
     }
 })

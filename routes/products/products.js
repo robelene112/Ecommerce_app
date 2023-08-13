@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
 	try {
 		const { rows: productRows } = await query('SELECT * FROM products WHERE created_by = $1', [username])
 	} catch (err) {
-		throw err
+		console.log(err) 
 	}
 	res.sendFile(path.join(__dirname, '/products.html'))
 })
@@ -34,7 +34,7 @@ router.post('/create', async (req, res) => {
 		// add product to database
 		await query('INSERT INTO products (product_name, stock, created_by) VALUES ($1, $2, $3)', [productName, stock, username])
 	} catch (err) {
-		throw err
+		console.log(err) 
 	}
 
 	// redirect back to products page
@@ -50,7 +50,7 @@ router.get('/productdata', async (req, res) => {
 	try {
 		const { rows: productRows } = await query('SELECT id, product_name, stock FROM products WHERE created_by = $1', [username])
 	} catch (err) {
-		throw err
+		console.log(err) 
 	}
 	res.json(productRows)
 })

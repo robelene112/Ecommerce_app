@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
         const { rows: userRows } = await query('SELECT * FROM users')
         const { rows: profileRows } = await query('SELECT * FROM profiles')
     } catch (err) {
-        throw err
+        console.log(err) 
     }
     res.json({ users: userRows, profiles: profileRows })
 })
@@ -55,7 +55,7 @@ router.post('/login', async (req, res) => {
             zip_code
         }
     } catch (err) {
-        throw err
+        console.log(err)
     }
 
     // Redirect to user profile
@@ -90,7 +90,7 @@ router.post('/register', async (req, res) => {
         const { rows: profileRows } = await query('SELECT id FROM profiles WHERE first_name = $1 AND last_name = $2 AND street = $3', [firstName, lastName, street])
         await query('INSERT INTO users (username, password, profile_id) VALUES ($1, $2, $3)', [username, password, profileRows[0].id])
     } catch (err) {
-        throw err
+        console.log(err)
     }
 
     // Redirect back to login page

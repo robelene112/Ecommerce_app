@@ -14,8 +14,8 @@ async function getProducts() {
         const response = await fetch('http://localhost:3000/products/productdata')
         return await response.json() 
     } catch (err) {
-        throw err
-    }
+        console.log(err) 
+   }
 }
 
 function createTableRow(productObject) {
