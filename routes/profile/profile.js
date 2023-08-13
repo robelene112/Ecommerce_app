@@ -9,12 +9,15 @@ router.get('/', (req, res) => {
 })
 
 router.delete('/', async (req, res) => {
-    // Remove user from database
-    const userId = req.session.user.id
-    const profileId = req.session.user.profile_id
-    await query('DELETE FROM users WHERE id = $1', [userId])
-    await query('DELETE FROM profiles WHERE id = $1', [profileId])
-
+    try {
+        // Remove user from database
+        const userId = req.session.user.id
+        const profileId = req.session.user.profile_id
+        await query('DELETE FROM users WHERE id = $1', [userId])
+        await query('DELETE FROM profiles WHERE id = $1', [profileId])
+    } catch (err) {
+        throw err
+    }
     // Clear session data
     req.session.destroy((err) => {
         if (err) throw err
@@ -38,15 +41,19 @@ router.post('/userinfo', async (req, res) => {
         city,
         zip_code
     } = req.body
-    await query('UPDATE users SET username = $1, password = $2', [username, password])
-    await query(`UPDATE profiles SET
+    try {
+        await query('UPDATE users SET username = $1, password = $2', [username, password])
+        await query(`UPDATE profiles SET
         first_name = $1,
         last_name = $2,
         street = $3,
         number = $4,
         city = $5,
         zip_code = $6`, [first_name, last_name, street, number, city, zip_code])
-    res.redirect('/profile')
+        res.redirect('/profile')
+    } catch (err) {
+        throw err
+    }
 })
 
 router.get('/profilejs', (req, res) => {
