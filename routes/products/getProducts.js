@@ -1,4 +1,13 @@
-console.log('hiii')
+async function main() {
+    const productData = await getProducts() // array -> object: product 1
+
+    const table = document.getElementsByTagName('tbody')[0]
+
+    for (i=0; i < productData.length; i++) {
+        const tableRow = createTableRow(productData[i])
+        table.appendChild(tableRow)
+    }
+}
 
 async function getProducts() {
     try {
@@ -29,17 +38,6 @@ function createTableRow(productObject) {
     newTableRow.appendChild(tdStock)  
 
     return newTableRow 
-}
-
-async function main() {
-    const productData = await getProducts() // array -> object: product 1
-
-    const table = document.getElementsByTagName('tbody')[0]
-
-    for (i=0; i < productData.length; i++) {
-        const tableRow = createTableRow(productData[i])
-        table.appendChild(tableRow)
-    }
 }
 
 main().then().catch((err) => console.log(err))
