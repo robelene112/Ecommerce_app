@@ -11,7 +11,7 @@ function ensureAuthenticated(req, res, next) {
 }
 
 const mountRouters = (app) => {
-    app.use('/users', usersRouter)
+    app.use('/', usersRouter)
     app.use(ensureAuthenticated)
     app.use('/profile', profileRouter)
     app.use('/products', productsRouter)

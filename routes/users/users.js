@@ -4,24 +4,14 @@ const path = require('path')
 
 const router = new Router()
 
-router.get('/', async (req, res) => {
-    try {
-        const { rows: userRows } = await query('SELECT * FROM users')
-        const { rows: profileRows } = await query('SELECT * FROM profiles')
-    } catch (err) {
-        console.log(err) 
-    }
-    res.json({ users: userRows, profiles: profileRows })
-})
-
-router.get('/login', (req, res) => {
+router.get('/', (req, res) => {
     req.session.destroy((err) => {
         if (err) throw err
         res.sendFile(path.join(__dirname, '/login.html'))
     })
 })
 
-router.post('/login', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
         // Authenticate user
         const { username, password } = req.body
@@ -94,7 +84,7 @@ router.post('/register', async (req, res) => {
     }
 
     // Redirect back to login page
-    res.redirect('/users/login')
+    res.redirect('/')
 })
 
 module.exports = {
