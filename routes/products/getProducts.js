@@ -1,43 +1,48 @@
 async function main() {
-    const productData = await getProducts() // array -> object: product 1
+	const productData = await getProducts() 
 
-    const table = document.getElementsByTagName('tbody')[0]
+	const table = document.getElementsByTagName('tbody')[0]
 
-    for (i=0; i < productData.length; i++) {
-        const tableRow = createTableRow(productData[i])
-        table.appendChild(tableRow)
-    }
+	for (i = 0; i < productData.length; i++) {
+		const tableRow = createTableRow(productData[i])
+		table.appendChild(tableRow)
+	}
 }
 
 async function getProducts() {
-    try {
-        const response = await fetch('http://localhost:3000/products/productdata')
-        return await response.json() 
-    } catch (err) {
-        console.log(err) 
-   }
+	try {
+		const response = await fetch('http://localhost:3000/products/productdata')
+		return await response.json()
+	} catch (err) {
+		console.log(err)
+	}
 }
 
 function createTableRow(productObject) {
-    let newTableRow = document.createElement('tr')
+    const newTableRow = document.createElement('tr');
 
-    let tdProductId = document.createElement('td')
-    let tdProductName = document.createElement('td')
-    let tdStock = document.createElement('td')
+    const createCell = (text) => {
+        const td = document.createElement('td');
+        td.textContent = text;
+        return td;
+    };
 
-    const textProductId = document.createTextNode(productObject.id.toString())
-    const textProductName = document.createTextNode(productObject.product_name)
-    const textStock = document.createTextNode(productObject.stock.toString())
+    const createButtonCell = (text) => {
+        const td = document.createElement('td');
+        const button = document.createElement('button');
+        button.textContent = text;
+        td.appendChild(button);
+        return td;
+    };
 
-    tdProductId.appendChild(textProductId)
-    tdProductName.appendChild(textProductName)
-    tdStock.appendChild(textStock)
+    newTableRow.appendChild(createCell(productObject.id));
+    newTableRow.appendChild(createCell(productObject.product_name));
+    newTableRow.appendChild(createCell(productObject.stock));
+    newTableRow.appendChild(createButtonCell('Edit'));
+    newTableRow.appendChild(createButtonCell('Delete'));
 
-    newTableRow.appendChild(tdProductId)
-    newTableRow.appendChild(tdProductName)
-    newTableRow.appendChild(tdStock)  
-
-    return newTableRow 
+    return newTableRow;
 }
+
 
 main().then().catch((err) => console.log(err))

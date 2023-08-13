@@ -5,12 +5,6 @@ const { query } = require('../../db/index')
 const router = new Router()
 
 router.get('/', async (req, res) => {
-	const { username } = req.session.user
-	try {
-		const { rows: productRows } = await query('SELECT * FROM products WHERE created_by = $1', [username])
-	} catch (err) {
-		console.log(err) 
-	}
 	res.sendFile(path.join(__dirname, '/products.html'))
 })
 
@@ -22,7 +16,7 @@ router.get('/create', (req, res) => {
 router.post('/create', async (req, res) => {
 	const productName = req.body.product_name
 	const stock = req.body.stock
-	const username = req.session.user.username
+	const profileId = req.session.user.profile_id
 
 	try {
 		// check if product already exists
@@ -32,9 +26,9 @@ router.post('/create', async (req, res) => {
 		}
 
 		// add product to database
-		await query('INSERT INTO products (product_name, stock, created_by) VALUES ($1, $2, $3)', [productName, stock, username])
+		await query('INSERT INTO products (product_name, stock, created_by) VALUES ($1, $2, $3)', [productName, stock, profileId])
 	} catch (err) {
-		console.log(err) 
+		console.log(err)
 	}
 
 	// redirect back to products page
@@ -46,13 +40,13 @@ router.get('/productsjs', (req, res) => {
 })
 
 router.get('/productdata', async (req, res) => {
-	const { username } = req.session.user
+	const { profile_id } = req.session.user
 	try {
-		const { rows: productRows } = await query('SELECT id, product_name, stock FROM products WHERE created_by = $1', [username])
+		const { rows: productRows } = await query('SELECT id, product_name, stock FROM products WHERE created_by = $1', [profile_id])
+		res.json(productRows)
 	} catch (err) {
-		console.log(err) 
+		console.log(err)
 	}
-	res.json(productRows)
 })
 
 module.exports = {
