@@ -30,6 +30,7 @@ router.post('/', async (req, res) => {
             city,
             zip_code
         } = profileRows[0]
+
         // Populate session data
         req.session.authenticated = true
         req.session.user = {
@@ -60,8 +61,8 @@ router.post('/register', async (req, res) => {
     const {
         username,
         password,
-        firstName,
-        lastName,
+        first_name,
+        last_name,
         street,
         number,
         city,
@@ -70,14 +71,21 @@ router.post('/register', async (req, res) => {
 
     try {
         // Check if user already exists
-        const { rows: userRows } = await query('SELECT username FROM users WHERE username = $1', [username])
+        const { rows: userRows } = await query(`
+			SELECT users.username, profiles.first_name, profiles.last_name, profiles.street
+			FROM users LEFT JOIN profiles
+			ON users.profile_id = profiles.id
+			WHERE users.username = $1
+			OR (profiles.first_name = $2 AND profiles.last_name = $3)`,
+			[username, first_name, last_name])
+
         if (userRows[0]) {
-            return res.send('Username already exists.')
+            return res.send('Username or profile already exists.')
         }
 
         // Create records in the 'users' and in the 'profiles' tables.
-        await query('INSERT INTO profiles (first_name, last_name, street, number, city, zip_code) VALUES ($1, $2, $3, $4, $5, $6)', [firstName, lastName, street, number, city, zipCode])
-        const { rows: profileRows } = await query('SELECT id FROM profiles WHERE first_name = $1 AND last_name = $2 AND street = $3', [firstName, lastName, street])
+        await query('INSERT INTO profiles (first_name, last_name, street, number, city, zip_code) VALUES ($1, $2, $3, $4, $5, $6)', [first_name, last_name, street, number, city, zipCode])
+        const { rows: profileRows } = await query('SELECT id FROM profiles WHERE first_name = $1 AND last_name = $2 AND street = $3', [first_name, last_name, street])
         await query('INSERT INTO users (username, password, profile_id) VALUES ($1, $2, $3)', [username, password, profileRows[0].id])
     } catch (err) {
         console.log(err)

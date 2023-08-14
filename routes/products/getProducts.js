@@ -30,6 +30,24 @@ function createTableRow(productObject) {
     const createButtonCell = (text) => {
         const td = document.createElement('td');
         const button = document.createElement('button');
+
+		// Add listener
+		button.addEventListener('click', () => {
+			if (text === 'Edit') {
+			localStorage.setItem('productName', productObject.product_name)
+			localStorage.setItem('productStock', productObject.stock)
+			localStorage.setItem('productId', productObject.id)
+
+			window.location.href = 'http://localhost:3000/products/edit'
+			} else {
+				const deleteProduct = window.confirm('Are you sure you want to delete this product?')
+				if (deleteProduct) {
+					console.log('Product deleted.')
+				}
+			}
+		})
+
+
         button.textContent = text;
         td.appendChild(button);
         return td;

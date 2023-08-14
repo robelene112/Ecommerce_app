@@ -35,6 +35,19 @@ router.post('/create', async (req, res) => {
 	res.redirect('/products')
 })
 
+router.get('/edit', (req, res) => {
+	res.sendFile(path.join(__dirname, '/edit_product.html'))
+})
+
+
+router.post('/edit', (req, res) => {
+})
+
+router.get('/editjs', (req, res) => {
+	res.sendFile(path.join(__dirname, '/editProducts.js'))
+})
+
+
 router.get('/productsjs', (req, res) => {
 	res.sendFile(path.join(__dirname, './getProducts.js'))
 })

@@ -43,6 +43,20 @@ router.post('/userinfo', async (req, res) => {
 		zip_code
 	} = req.body
 	try {
+		
+		// Check if username already exists
+        const { rows: userRows } = await query(`
+			SELECT users.username, profiles.first_name, profiles.last_name, profiles.street
+			FROM users LEFT JOIN profiles
+			ON users.profile_id = profiles.id
+			WHERE users.username = $1
+			OR (profiles.first_name = $2 AND profiles.last_name = $3)`,
+			[username, first_name, last_name])
+
+        if (userRows[0]) {
+            return res.send('Username or profile already exists.')
+        }
+
 		// Update database
 		await query('UPDATE users SET username = $1, password = $2', [username, password])
 		await query(`UPDATE profiles SET
