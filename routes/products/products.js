@@ -35,12 +35,27 @@ router.post('/create', async (req, res) => {
 	res.redirect('/products')
 })
 
-router.get('/edit', (req, res) => {
+router.get('/edit', async (req, res) => {
+	const { rows: productRows } = await query('SELECT * FROM products WHERE created_by = $1', [req.session.user.profile_id])
+	req.session.user = {
+		...req.session.user,
+		products: productRows
+	}
+
 	res.sendFile(path.join(__dirname, '/edit_product.html'))
 })
 
 
-router.post('/edit', (req, res) => {
+router.post('/edit', async (req, res) => {
+	const { product_name, stock } = req.body
+
+	// Check if the product name already exists
+	// Edit product in database
+	const filteredProduct = req.session.user.products
+	await query('UPDATE products SET product_name = $1, stock = $2 WHERE product_name = $3', [product_name, stock, req.session.user.products[0]])
+
+	// Redirect to /products
+	res.redirect('/products')
 })
 
 router.get('/editjs', (req, res) => {
