@@ -4,8 +4,15 @@ const { query } = require('../../db/index')
 
 const router = new Router()
 
-router.get('/', async (req, res) => {
+router.get('/', (req, res) => {
 	res.sendFile(path.join(__dirname, '/products.html'))
+})
+
+
+router.delete('/', async (req, res) => {
+	const { idToDelete } = req.body
+	await query('DELETE FROM products WHERE id = $1', [idToDelete])
+	res.status(204).send()
 })
 
 router.get('/create', (req, res) => {

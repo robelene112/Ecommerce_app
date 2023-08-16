@@ -48,12 +48,10 @@ function createTableRow(productObject) {
 						await fetch('http://localhost:3000/products', {
 							method: 'DELETE',
 							body: JSON.stringify({ idToDelete: productObject.id }),
-							headers: {
+							header: {
 								"Content-Type": "application/json"
 							}
 						})
-
-						location.reload()
 					} catch (err) {
 						console.log("Deleting error: ")
 						console.log(err)
