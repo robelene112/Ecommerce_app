@@ -31,31 +31,31 @@ router.post('/create', async (req, res) => {
 		console.log(err)
 	}
 
-	// redirect back to products page
+	// Redirect to /products
 	res.redirect('/products')
 })
 
 router.get('/edit', async (req, res) => {
-	const { rows: productRows } = await query('SELECT * FROM products WHERE created_by = $1', [req.session.user.profile_id])
-	req.session.user = {
-		...req.session.user,
-		products: productRows
-	}
-
 	res.sendFile(path.join(__dirname, '/edit_product.html'))
 })
 
 
 router.post('/edit', async (req, res) => {
-	const { product_name, stock } = req.body
+	console.log('Enter /products/edit')
+	console.log(req.body)
+	const { oldValues, newValues} = req.body
 
 	// Check if the product name already exists
-	// Edit product in database
-	const filteredProduct = req.session.user.products
-	await query('UPDATE products SET product_name = $1, stock = $2 WHERE product_name = $3', [product_name, stock, req.session.user.products[0]])
+	const { rows: productRows } = await query('SELECT * FROM products WHERE product_name = $1', [newValues.newProductName])
+	if (productRows[0]) {
+		res.send('Product already exists, choose a different name.')
+	}
 
-	// Redirect to /products
-	res.redirect('/products')
+	// Edit product in database
+	await query('UPDATE products SET product_name = $1, stock = $2 WHERE product_name = $3', [newValues.newProductName, newValues.newProductStock, oldValues.oldProductName])
+
+	// Redirect back to products page, mostly handled in client side javascript
+	res.status(204).send()
 })
 
 router.get('/editjs', (req, res) => {
