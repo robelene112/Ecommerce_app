@@ -1,11 +1,11 @@
 async function main() {
 	const productData = await getProducts()
 
-	const table = document.getElementsByTagName('tbody')[0]
+	const tableBody = document.getElementsByTagName('tbody')[0]
 
 	for (i = 0; i < productData.length; i++) {
 		const tableRow = createTableRow(productData[i])
-		table.appendChild(tableRow)
+		tableBody.appendChild(tableRow)
 	}
 }
 

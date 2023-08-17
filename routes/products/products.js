@@ -8,7 +8,6 @@ router.get('/', (req, res) => {
 	res.sendFile(path.join(__dirname, '/products.html'))
 })
 
-
 router.delete('/', async (req, res) => {
 	const { idToDelete } = req.body
 	await query('DELETE FROM products WHERE id = $1', [idToDelete])
@@ -18,7 +17,6 @@ router.delete('/', async (req, res) => {
 router.get('/create', (req, res) => {
 	res.sendFile(path.join(__dirname, '/create_product.html'))
 })
-
 
 router.post('/create', async (req, res) => {
 	const productName = req.body.product_name
@@ -42,10 +40,13 @@ router.post('/create', async (req, res) => {
 	res.redirect('/products')
 })
 
+router.get('/browse', (req, res) => {
+	res.sendFile(path.join(__dirname, '/browse_product.html'))
+})
+
 router.get('/edit', async (req, res) => {
 	res.sendFile(path.join(__dirname, '/edit_product.html'))
 })
-
 
 router.post('/edit', async (req, res) => {
 	console.log('Enter /products/edit')
@@ -69,15 +70,35 @@ router.get('/editjs', (req, res) => {
 	res.sendFile(path.join(__dirname, '/editProducts.js'))
 })
 
-
 router.get('/productsjs', (req, res) => {
 	res.sendFile(path.join(__dirname, './getProducts.js'))
+})
+
+router.get('/browsejs', (req, res) => {
+	res.sendFile(path.join(__dirname, './browseProducts.js'))
 })
 
 router.get('/productdata', async (req, res) => {
 	const { profile_id } = req.session.user
 	try {
 		const { rows: productRows } = await query('SELECT id, product_name, stock FROM products WHERE created_by = $1', [profile_id])
+		res.json(productRows)
+	} catch (err) {
+		console.log(err)
+	}
+})
+
+router.get('/allproductdata', async (req, res) => {
+	const { profile_id } = req.session.user
+	try {
+		const { rows: productRows } = await query(`SELECT
+			products.id, 
+			products.product_name,
+			products.stock,
+			profiles.first_name,
+			profiles.last_name 
+			FROM products INNER JOIN profiles ON products.created_by = profiles.id
+			WHERE stock > 0 AND created_by != $1`, [profile_id])
 		res.json(productRows)
 	} catch (err) {
 		console.log(err)
