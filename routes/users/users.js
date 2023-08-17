@@ -73,7 +73,7 @@ router.post('/register', async (req, res) => {
         // Check if user already exists
         const { rows: userRows } = await query(`
 			SELECT users.username, profiles.first_name, profiles.last_name, profiles.street
-			FROM users LEFT JOIN profiles
+			FROM users INNER JOIN profiles
 			ON users.profile_id = profiles.id
 			WHERE users.username = $1
 			OR (profiles.first_name = $2 AND profiles.last_name = $3)`,

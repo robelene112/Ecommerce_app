@@ -43,29 +43,37 @@ router.post('/userinfo', async (req, res) => {
 		zip_code
 	} = req.body
 	try {
-		
 		// Check if username already exists
-        const { rows: userRows } = await query(`
-			SELECT users.username, profiles.first_name, profiles.last_name, profiles.street
-			FROM users LEFT JOIN profiles
-			ON users.profile_id = profiles.id
-			WHERE users.username = $1
-			OR (profiles.first_name = $2 AND profiles.last_name = $3)`,
-			[username, first_name, last_name])
+		const { rows: userRows } = await query('SELECT * FROM users WHERE username = $1 AND profile_id != $2', [username, req.session.user.profile_id])
 
-        if (userRows[0]) {
-            return res.send('Username or profile already exists.')
-        }
+		if (userRows[0]) {
+			return res.send('Username already taken.')
+		}
+
+		const { rows: profileRows } = await query(`SELECT * FROM profiles WHERE
+			first_name = $1 AND
+			last_name = $2 AND
+			street = $3 AND
+			id != $4`, [first_name, last_name, street, req.session.user.profile_id])
+
+		if (profileRows[0]) {
+			return res.send('Combination of first name, last name and street already taken.')
+		}
 
 		// Update database
-		await query('UPDATE users SET username = $1, password = $2', [username, password])
+		await query('UPDATE users SET username = $1, password = $2 WHERE username = $3',
+			[username, password, req.session.user.username])
 		await query(`UPDATE profiles SET
         first_name = $1,
         last_name = $2,
         street = $3,
         number = $4,
         city = $5,
-        zip_code = $6`, [first_name, last_name, street, number, city, zip_code])
+        zip_code = $6
+		WHERE
+		first_name = $7 AND
+		last_name = $8 AND
+		street = $9`, [first_name, last_name, street, number, city, zip_code, req.session.user.first_name, req.session.user.last_name, req.session.user.street])
 
 		// Update session data
 		req.session.user = {
