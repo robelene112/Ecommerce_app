@@ -24,6 +24,6 @@ async function main() {
     allInputElements[7].setAttribute('value', userInfo.zip_code)
 }
 
-main().then(() => {})
+main().then().catch((err) => { console.log(err) })
 
 

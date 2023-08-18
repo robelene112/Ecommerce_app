@@ -19,19 +19,26 @@ async function getProducts() {
 }
 
 function createTableRow(productObject) {
-	const newTableRow = document.createElement('tr');
+	const newTableRow = document.createElement('tr')
 
 	const createCell = (text) => {
-		const td = document.createElement('td');
-		td.textContent = text;
-		return td;
-	};
+		const td = document.createElement('td')
+		td.textContent = text
+		return td
+	}
 
-	newTableRow.appendChild(createCell(productObject.id));
-	newTableRow.appendChild(createCell(productObject.product_name));
-	newTableRow.appendChild(createCell(productObject.stock));
-	newTableRow.appendChild(createCell(productObject.first_name + ' ' + productObject.last_name));
-	return newTableRow;
+	const createButtonCell = () => {
+		const button = document.createElement('button')
+		button.textContent = 'Add to cart'
+		return button
+	}
+
+	newTableRow.appendChild(createCell(productObject.id))
+	newTableRow.appendChild(createCell(productObject.product_name))
+	newTableRow.appendChild(createCell(productObject.stock))
+	newTableRow.appendChild(createCell(productObject.first_name + ' ' + productObject.last_name))
+	newTableRow.appendChild(createButtonCell())
+	return newTableRow
 }
 
 document.getElementById('back-button').addEventListener('click', (event) => {
