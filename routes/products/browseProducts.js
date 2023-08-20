@@ -1,10 +1,14 @@
 async function main() {
 	const allProducts = await getProducts()
+	const cartData = await getCart()
+	const productIds = cartData[0].product_ids
 
 	const tableBody = document.getElementsByTagName('tbody')[0]
 
 	for (i = 0; i < allProducts.length; i++) {
-		const tableRow = createTableRow(allProducts[i])
+		console.log(allProducts[i])
+		const tableRow = createTableRow(allProducts[i], productIds)
+        tableRow.lastElementChild.textContent = productIds.includes(parseInt(tableRow.firstElementChild.textContent)) ? 'Remove' : 'Add to cart'
 		tableBody.appendChild(tableRow)
 	}
 }
@@ -12,6 +16,15 @@ async function main() {
 async function getProducts() {
 	try {
 		const response = await fetch('http://localhost:3000/products/allproductdata')
+		return await response.json()
+	} catch (err) {
+		console.log(err)
+	}
+}
+
+async function getCart() {
+	try {
+		const response = await fetch('http://localhost:3000/cart/cartdata')
 		return await response.json()
 	} catch (err) {
 		console.log(err)
@@ -29,26 +42,29 @@ function createTableRow(productObject) {
 
 	const createButtonCell = () => {
 		const button = document.createElement('button')
-		button.textContent = 'Add to cart'
+		// button.textContent = productIds.includes(button.parentElement.firstElementChild.textContent) ? 'Remove' : 'Add to cart'
 
 		button.addEventListener('click', async (event) => {
 			event.preventDefault()
-			console.log(event.target.parentElement.firstElementChild.textContent)
-			if (event.target.textContent === 'Add to cart') {
-				try {
-					event.target.textContent = 'Remove'
-					await fetch('http://localhost:3000/cart', {
-						method: 'POST',
-						body: JSON.stringify({ productId: event.target.parentElement.firstElementChild.textContent }),
-						headers: {
-							"Content-Type": "application/json"
-						}
 
-					})
-				} catch (err) { console.log(err) }
-			} else {
-				event.target.textContent = 'Add to cart'
-			}
+            // Change text depending on whether we're removing or adding to the cart
+            if (event.target.textContent === 'Add to cart') {
+                event.target.textContent = 'Remove'
+            } else {
+                event.target.textContent = 'Add to cart'
+            }
+
+			// Send the productId to the server
+			try {
+				await fetch('http://localhost:3000/cart', {
+					method: 'POST',
+					body: JSON.stringify({ productId: event.target.parentElement.firstElementChild.textContent }),
+					headers: {
+						"Content-Type": "application/json"
+					}
+
+				})
+			} catch (err) { console.log(err) }
 		})
 
 		return button
