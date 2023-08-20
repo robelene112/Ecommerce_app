@@ -30,6 +30,27 @@ function createTableRow(productObject) {
 	const createButtonCell = () => {
 		const button = document.createElement('button')
 		button.textContent = 'Add to cart'
+
+		button.addEventListener('click', async (event) => {
+			event.preventDefault()
+			console.log(event.target.parentElement.firstElementChild.textContent)
+			if (event.target.textContent === 'Add to cart') {
+				try {
+					event.target.textContent = 'Remove'
+					await fetch('http://localhost:3000/cart', {
+						method: 'POST',
+						body: JSON.stringify({ productId: event.target.parentElement.firstElementChild.textContent }),
+						headers: {
+							"Content-Type": "application/json"
+						}
+
+					})
+				} catch (err) { console.log(err) }
+			} else {
+				event.target.textContent = 'Add to cart'
+			}
+		})
+
 		return button
 	}
 

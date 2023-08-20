@@ -16,6 +16,7 @@ router.delete('/', async (req, res) => {
 		await query('DELETE FROM users WHERE profile_id = $1', [profileId])
 		await query('DELETE FROM products WHERE created_by = $1', [profileId])
 		await query('DELETE FROM profiles WHERE id = $1', [profileId])
+		await query('DELETE FROM cart WHERE profile_id = $1', [profileId])
 	} catch (err) {
 		console.log(err)
 	}
