@@ -4,10 +4,12 @@ const { query } = require('../../db/index')
 
 const router = new Router()
 
+router.get('/', (req, res) => {
+	res.sendFile(path.join(__dirname, '/cart.html'))
+})
+
 router.post('/', async (req, res) => {
 	const { productId } = req.body
-	console.log(req.body)
-	console.log(productId)
 	
 	// Check if product was already added if so, remove the item.
 	const { rows: cartRows } = await query('SELECT * FROM cart WHERE profile_id = $1 AND $2 = ANY(product_ids)', [req.session.user.profile_id, productId])
@@ -18,6 +20,14 @@ router.post('/', async (req, res) => {
 	}
 
 	res.status(204).send()
+})
+
+router.get('/cartdata', async (req, res) => {
+	const { profile_id } = req.session.user
+
+	const { rows: cartRows } = await query('SELECT * FROM cart WHERE profile_id = $1', [profile_id])
+
+	res.json(cartRows)
 })
 
 module.exports = {
