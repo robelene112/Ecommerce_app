@@ -87,7 +87,6 @@ router.post('/register', async (req, res) => {
         await query('INSERT INTO profiles (first_name, last_name, street, number, city, zip_code) VALUES ($1, $2, $3, $4, $5, $6)', [first_name, last_name, street, number, city, zipCode])
         const { rows: profileRows } = await query('SELECT id FROM profiles WHERE first_name = $1 AND last_name = $2 AND street = $3', [first_name, last_name, street])
         await query('INSERT INTO users (username, password, profile_id) VALUES ($1, $2, $3)', [username, password, profileRows[0].id])
-		await query("INSERT INTO cart (product_ids, profile_id) VALUES ('{}', $1)", [profileRows[0].id])
     } catch (err) {
         console.log(err)
     }

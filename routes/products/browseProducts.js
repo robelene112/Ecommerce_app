@@ -1,14 +1,11 @@
 async function main() {
 	const allProducts = await getProducts()
-	const cartData = await getCart()
-	const productIds = cartData[0].product_ids
 
 	const tableBody = document.getElementsByTagName('tbody')[0]
 
 	for (i = 0; i < allProducts.length; i++) {
 		console.log(allProducts[i])
-		const tableRow = createTableRow(allProducts[i], productIds)
-        tableRow.lastElementChild.textContent = productIds.includes(parseInt(tableRow.firstElementChild.textContent)) ? 'Remove' : 'Add to cart'
+		const tableRow = createTableRow(allProducts[i])
 		tableBody.appendChild(tableRow)
 	}
 }
@@ -16,15 +13,6 @@ async function main() {
 async function getProducts() {
 	try {
 		const response = await fetch('http://localhost:3000/products/allproductdata')
-		return await response.json()
-	} catch (err) {
-		console.log(err)
-	}
-}
-
-async function getCart() {
-	try {
-		const response = await fetch('http://localhost:3000/cart/cartdata')
 		return await response.json()
 	} catch (err) {
 		console.log(err)
@@ -40,30 +28,35 @@ function createTableRow(productObject) {
 		return td
 	}
 
-	const createButtonCell = () => {
+	const createInputCell = () => {
+		const input = document.createElement('input')
+		input.setAttribute('type', 'number')
+		return input
+	}
+
+	const createButtonCell = (text) => {
 		const button = document.createElement('button')
-		// button.textContent = productIds.includes(button.parentElement.firstElementChild.textContent) ? 'Remove' : 'Add to cart'
+		button.textContent = text
 
 		button.addEventListener('click', async (event) => {
 			event.preventDefault()
 
-            // Change text depending on whether we're removing or adding to the cart
-            if (event.target.textContent === 'Add to cart') {
-                event.target.textContent = 'Remove'
-            } else {
-                event.target.textContent = 'Add to cart'
-            }
-
 			// Send the productId to the server
 			try {
-				await fetch('http://localhost:3000/cart', {
+				const productId = event.target.parentElement.firstElementChild.textContent 
+				const amount = document.getElementsByTagName('input')[0].value
+				const response = await fetch('http://localhost:3000/cart', {
 					method: 'POST',
-					body: JSON.stringify({ productId: event.target.parentElement.firstElementChild.textContent }),
+					body: JSON.stringify({ productId, amount }),
 					headers: {
 						"Content-Type": "application/json"
 					}
-
 				})
+				if (response.status === 400) {
+					window.alert('The amount requested exceeded the stock available.')
+				} else {
+					location.reload()
+				}
 			} catch (err) { console.log(err) }
 		})
 
@@ -74,7 +67,9 @@ function createTableRow(productObject) {
 	newTableRow.appendChild(createCell(productObject.product_name))
 	newTableRow.appendChild(createCell(productObject.stock))
 	newTableRow.appendChild(createCell(productObject.first_name + ' ' + productObject.last_name))
-	newTableRow.appendChild(createButtonCell())
+	newTableRow.appendChild(createInputCell())
+	newTableRow.appendChild(createButtonCell('Add to cart'))
+	newTableRow.appendChild(createButtonCell('Remove'))
 	return newTableRow
 }
 
