@@ -41,10 +41,23 @@ router.post('/', async (req, res) => {
 router.get('/cartdata', async (req, res) => {
 	const { profile_id } = req.session.user
 
-	const { rows: cartRows } = await query('SELECT * FROM cart WHERE profile_id = $1', [profile_id])
-	console.log('cartRows in /cart/cartdata: ')
+	const { rows: cartRows } = await query(`SELECT
+		products.id,
+		products.product_name,
+		cart.amount,
+		profiles.id,
+		profiles.first_name,
+		profiles.last_name
+		FROM cart
+		INNER JOIN products ON cart.product_id = products.id
+		INNER JOIN profiles ON products.created_by = profiles.id
+		WHERE cart.profile_id = $1`, [profile_id])
 
 	res.json(cartRows)
+})
+
+router.get('/getcartjs', async (req, res) => {
+	res.sendFile(path.join(__dirname, '/getCart.js'))
 })
 
 module.exports = {
