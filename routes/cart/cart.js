@@ -10,8 +10,7 @@ router.get('/', (req, res) => {
 
 router.post('/', async (req, res) => {
 	const { productId, amount } = req.body
-	console.log(amount)
-	
+
 	// Check if there is still stock available
 	const { rows: productRows } = await query('SELECT stock FROM products WHERE id = $1', [productId])
 
@@ -38,6 +37,21 @@ router.post('/', async (req, res) => {
 	res.status(204).send()
 })
 
+router.put('/', async (req, res) => {
+	const { productId, amountToDelete, currentAmount } = req.body
+
+	try {
+		if (currentAmount === amountToDelete) {
+			await query('DELETE FROM cart WHERE product_id = $1 AND profile_id = $2', [productId, req.session.user.profile_id])
+		} else {
+			await query('UPDATE cart SET amount = amount - $1 WHERE product_id = $2 AND profile_id = $3', [amountToDelete, productId, req.session.user.profile_id])
+		}
+		await query('UPDATE products SET stock = stock + $1 WHERE id = $2', [amountToDelete, productId])
+	} catch (err) { console.log(err) }
+
+	res.status(204).send()
+})
+
 router.get('/cartdata', async (req, res) => {
 	const { profile_id } = req.session.user
 
@@ -45,7 +59,6 @@ router.get('/cartdata', async (req, res) => {
 		products.id,
 		products.product_name,
 		cart.amount,
-		profiles.id,
 		profiles.first_name,
 		profiles.last_name
 		FROM cart
