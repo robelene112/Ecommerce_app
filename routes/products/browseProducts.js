@@ -44,7 +44,8 @@ function createTableRow(productObject) {
 			// Send the productId to the server
 			try {
 				const productId = event.target.parentElement.firstElementChild.textContent 
-				const amount = document.getElementsByTagName('input')[0].value
+				const amount = event.target.parentElement.childNodes[4].value
+				console.log(amount)
 				const response = await fetch('http://localhost:3000/cart', {
 					method: 'POST',
 					body: JSON.stringify({ productId, amount }),

@@ -52,6 +52,23 @@ router.put('/', async (req, res) => {
 	res.status(204).send()
 })
 
+router.delete('/', async (req, res) => {
+	const { itemAmount } = req.body
+	console.log(req.body)
+
+	console.log('item + amount: ')
+	console.log(itemAmount)
+
+	for (const product in itemAmount) {
+		console.log(product)
+		console.log(itemAmount[product])
+		await query('DELETE FROM cart WHERE product_id = $1 AND profile_id = $2', [product, req.session.user.profile_id])
+		await query('UPDATE products SET stock = stock + $1 WHERE id = $2', [itemAmount[product], product])
+	}
+
+	res.status(204).send()
+})
+
 router.get('/cartdata', async (req, res) => {
 	const { profile_id } = req.session.user
 

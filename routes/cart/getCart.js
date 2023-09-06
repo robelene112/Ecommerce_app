@@ -3,11 +3,14 @@ async function main() {
 
 	const tableBody = document.getElementsByTagName('tbody')[0]
 
-	for (i=0; i < cart.length; i++) {
+	for (i = 0; i < cart.length; i++) {
 		const newTableRow = createTableRow(cart[i])
 		tableBody.appendChild(newTableRow)
-
 	}
+
+	const deleteAllProductsButton = document.getElementById('delete-all')
+
+	deleteAllProductsButton.addEventListener('click', deleteAllProductsHandler)
 }
 
 async function getCart() {
@@ -56,7 +59,7 @@ function createTableRow(cartProduct) {
 			try {
 				await fetch('http://localhost:3000/cart', {
 					'method': 'PUT',
-					'body': JSON.stringify({amountToDelete, productId, currentAmount}),
+					'body': JSON.stringify({ amountToDelete, productId, currentAmount }),
 					'headers': {
 						'Content-Type': 'application/json'
 					}
@@ -73,6 +76,29 @@ function createTableRow(cartProduct) {
 	newTableRow.appendChild(deleteButton)
 
 	return newTableRow
+}
+
+async function deleteAllProductsHandler(e) {
+	e.preventDefault()
+
+	const cart = await getCart()
+	if (!cart[0]) {
+		window.alert('Cart is empty')
+	}
+
+	const itemAmount = {}
+
+	for (const item of cart) {
+		itemAmount[item.id] = item.amount
+	}
+
+	await fetch('http://localhost:3000/cart', {
+		'method': 'DELETE',
+		'body': JSON.stringify({itemAmount}),
+		'headers': {
+			'Content-Type': 'application/json'
+		}
+	})
 }
 
 main().then().catch((err) => { console.log(err) })
