@@ -9,8 +9,10 @@ async function main() {
 	}
 
 	const deleteAllProductsButton = document.getElementById('delete-all')
-
 	deleteAllProductsButton.addEventListener('click', deleteAllProductsHandler)
+
+	const placeOrderButton = document.getElementById('place-order')
+	placeOrderButton.addEventListener('click', placeOrderHandler)
 }
 
 async function getCart() {
@@ -28,7 +30,6 @@ function createTableRow(cartProduct) {
 	delete cartProduct['first_name']
 	delete cartProduct['last_name']
 
-	console.log('Keys: ')
 	for (const key in cartProduct) {
 		const newTableCell = document.createElement('td')
 		newTableCell.textContent = cartProduct[key]
@@ -64,9 +65,8 @@ function createTableRow(cartProduct) {
 						'Content-Type': 'application/json'
 					}
 				})
-
+				location.reload()
 			} catch (err) { console.log(err) }
-			location.reload()
 		}
 
 	})
@@ -81,24 +81,19 @@ function createTableRow(cartProduct) {
 async function deleteAllProductsHandler(e) {
 	e.preventDefault()
 
-	const cart = await getCart()
-	if (!cart[0]) {
-		window.alert('Cart is empty')
+	const message = 'Are you sure you want to delete all products from your cart?'
+	if (window.confirm(message)) {
+		await fetch('http://localhost:3000/cart', {
+			'method': 'DELETE',
+		})
+		location.reload()
 	}
-
-	const itemAmount = {}
-
-	for (const item of cart) {
-		itemAmount[item.id] = item.amount
-	}
-
-	await fetch('http://localhost:3000/cart', {
-		'method': 'DELETE',
-		'body': JSON.stringify({itemAmount}),
-		'headers': {
-			'Content-Type': 'application/json'
-		}
-	})
 }
+
+async function placeOrderHandler(e) {
+	e.preventDefault()
+
+	window.location.href = 'http://localhost:3000/orders/placeorder'
+} 
 
 main().then().catch((err) => { console.log(err) })

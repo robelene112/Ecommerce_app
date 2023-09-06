@@ -49,8 +49,6 @@ router.get('/edit', async (req, res) => {
 })
 
 router.post('/edit', async (req, res) => {
-	console.log('Enter /products/edit')
-	console.log(req.body)
 	const { oldValues, newValues} = req.body
 
 	// Check if the product name already exists
@@ -98,7 +96,8 @@ router.get('/allproductdata', async (req, res) => {
 			profiles.first_name,
 			profiles.last_name 
 			FROM products INNER JOIN profiles ON products.created_by = profiles.id
-			WHERE stock > 0 AND created_by != $1`, [profile_id])
+			WHERE stock > 0 AND created_by != $1
+			ORDER BY 1 ASC`, [profile_id])
 		res.json(productRows)
 	} catch (err) {
 		console.log(err)
