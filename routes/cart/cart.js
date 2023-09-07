@@ -5,7 +5,7 @@ const { query } = require('../../db/index')
 const router = new Router()
 
 router.get('/', (req, res) => {
-	res.sendfile(path.join(__dirname, '/cart.html'))
+	res.sendFile(path.join(__dirname, '/cart.html'))
 })
 
 router.post('/', async (req, res) => {

@@ -92,8 +92,16 @@ async function deleteAllProductsHandler(e) {
 
 async function placeOrderHandler(e) {
 	e.preventDefault()
-
-	window.location.href = 'http://localhost:3000/orders/placeorder'
+	
+	try {
+		const res = await fetch('http://localhost:3000/orders/placeorder')
+		if (res.status !== 200) {
+			window.alert('Cart is empty')
+		} else {
+			const htmlContent = await res.text()
+			document.body.innerHTML = htmlContent
+		}
+	} catch (err) { console.log(err) }
 } 
 
 main().then().catch((err) => { console.log(err) })

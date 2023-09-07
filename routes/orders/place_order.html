@@ -2,31 +2,40 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Place order</title>
+	<meta charset="UTF-8">
+	<title>Place order</title>
 </head>
 
 <body>
-	<h3>Choose your payment method: </h3>
-    <form action="" method="post">
-        <label for='IDEAL'>IDEAL</label>
-        <input type="radio" name='payment-method' id='IDEAL'>
+	<fieldset>
+		<legend>Choose your payment method: </legend>
+		<form action="http://localhost:3000/orders/placeorder" method="post">
+			<label for='IDEAL'>IDEAL</label>
+			<input type="radio" name='payment_method' id='IDEAL' value='ideal' required>
+			<br>
 
-        <label for='credit-card'>Credit card</label>
-        <input type="radio" name='payment-method' id='credit-card'>
+			<label for='credit_card'>Credit card</label>
+			<input type="radio" name='payment_method' id='credit_card' value='credit_card'>
+			<br>
 
-        <label for='crypto'>Crypto</label>
-        <input type="radio" name='payment-method' id='crypto'>
+			<label for='crypto'>Crypto</label>
+			<input type="radio" name='payment_method' id='crypto' value='crypto'>
+			<br>
 
-		<br>
-		<br>
+			<label for='paypal'>PayPal</label>
+			<input type="radio" name='payment_method' id='paypal' value='paypal'>
 
-        <input type="submit" value='Place order'>
-    </form>
+			<br>
+			<br>
+
+			<input type="submit" value='Place order'>
+		</form>
+	</fieldset>
+
 	<br>
-    <button>
+	<button>
 		<a href='http://localhost:3000/cart'>
 			Go back
 		</a>
-    </button>
+	</button>
 </body>

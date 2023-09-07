@@ -7,6 +7,18 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Profile</title>
     <script defer type='text/javascript' src='./profile/deleteaccountjs'></script>
+    <script defer type='text/javascript'>
+		async function main () {
+			try {
+			const res = await fetch('http://localhost:3000/profile/cookiedata')
+			const data = await res.json()
+			const welcomeText = document.getElementsByTagName('h1')[0]
+			const firstName = data.first_name.charAt(0).toUpperCase() + data.first_name.slice(1)
+			welcomeText.innerHTML = `Welcome back, ${firstName}!`
+			} catch (err) { console.log(err) }
+		}
+		main().then().catch((err) => { console.log(err) })
+	</script>
 </head>
 
 <body>
