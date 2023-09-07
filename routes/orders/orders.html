@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Orders</title>
+	<script defer src="/orders/getordersjs" type="text/javascript"></script>
+</head>
+
+<style>
+    table,
+    th,
+    td {
+        border: 1px solid black
+    }
+</style>
+
+<body>
+	<button onclick="window.location.href = 'http://localhost:3000/profile'">Go back</button>
+	<h3>My orders: </h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Order date</th>
+                <th>Order time</th>
+                <th>Payment method</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</body>
+

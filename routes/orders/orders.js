@@ -4,6 +4,10 @@ const { query } = require('../../db/index')
 
 const router = new Router()
 
+router.get('/', (req, res) => {
+	res.sendFile(path.join(__dirname, '/orders.html'))
+})
+
 router.get('/placeorder', async (req, res) => {
 	try {
 		const { rows: cartRows } = await query('SELECT * FROM cart WHERE profile_id = $1', [req.session.user.profile_id])
@@ -44,6 +48,10 @@ router.post('/placeorder', async (req, res) => {
 	} catch (err) { console.log(err) }
 
 	res.redirect('/cart')
+})
+
+router.get('/getordersjs', (req, res) => {
+	res.sendFile(path.join(__dirname, '/getOrders.js'))
 })
 
 module.exports = {
