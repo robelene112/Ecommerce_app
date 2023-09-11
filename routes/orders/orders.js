@@ -54,6 +54,11 @@ router.get('/getordersjs', (req, res) => {
 	res.sendFile(path.join(__dirname, '/getOrders.js'))
 })
 
+router.get('/orderdata', async (req, res) => {
+	const { rows: orderRows } = await query('SELECT id, order_date, order_time, payment_method, status FROM orders WHERE profile_id = $1 ORDER BY id', [req.session.user.profile_id])
+	res.json(orderRows)
+})
+
 module.exports = {
 	router
 }
