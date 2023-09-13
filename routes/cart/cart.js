@@ -4,6 +4,97 @@ const { query } = require('../../db/index')
 
 const router = new Router()
 
+/**
+ * @swagger
+ * /cart:
+ *   get:
+ *     security:
+ *       - SessionAuth: []
+ *     summary: Retrieve the cart page.
+ *     description: Returns the cart.html page for the user to view their cart contents.
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved cart page.
+ *         content:
+ *           text/html:
+ *             schema:
+ *               type: string
+ * 
+ *   post:
+ *     security:
+ *       - SessionAuth: []
+ *     summary: Add a product to the cart.
+ *     description: Adds a specified product and amount to the user's cart.
+ *     parameters:
+ *       - in: body
+ *         name: product
+ *         description: The product to add to the cart.
+ *         schema:
+ *           type: object
+ *           required:
+ *             - productId
+ *             - amount
+ *           properties:
+ *             productId:
+ *               type: integer
+ *               description: The ID of the product.
+ *             amount:
+ *               type: integer
+ *               description: The amount of the product to add.
+ *     responses:
+ *       204:
+ *         description: Successfully added product to cart.
+ *       400:
+ *         description: Not enough stock available.
+ * 
+ *   put:
+ *     security:
+ *       - SessionAuth: []
+ *     summary: Update the amount of a product in the cart.
+ *     description: Updates or removes a product from the cart based on the specified amount.
+ *     parameters:
+ *       - in: body
+ *         name: product
+ *         description: The product to update in the cart.
+ *         schema:
+ *           type: object
+ *           required:
+ *             - productId
+ *             - amountToDelete
+ *             - currentAmount
+ *           properties:
+ *             productId:
+ *               type: integer
+ *               description: The ID of the product.
+ *             amountToDelete:
+ *               type: integer
+ *               description: The amount of the product to delete.
+ *             currentAmount:
+ *               type: integer
+ *               description: The current amount of the product in the cart.
+ *     responses:
+ *       204:
+ *         description: Successfully updated product in cart.
+ * 
+ *   delete:
+ *     security:
+ *       - SessionAuth: []
+ *     summary: Clear the entire cart.
+ *     description: Removes all products from the user's cart.
+ *     parameters:
+ *       - in: body
+ *         name: cart
+ *         description: The amount of items to clear from the cart.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             itemAmount:
+ *               type: integer
+ *               description: The total amount of items in the cart.
+ *     responses:
+ *       204:
+ *         description: Successfully cleared the cart.
+ */
 router.get('/', (req, res) => {
 	res.sendFile(path.join(__dirname, '/cart.html'))
 })

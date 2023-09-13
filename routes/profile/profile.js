@@ -3,7 +3,142 @@ const path = require('path')
 const { query } = require('../../db/index')
 
 const router = new Router()
-
+/**
+ * @swagger
+ * /profiles:
+ *   get:
+ *     security:
+ *       - SessionAuth: []
+ *     summary: Retrieve the user's profile page.
+ *     description: Returns the profile.html page for the user to view and manage their profile.
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved profile page.
+ *         content:
+ *           text/html:
+ *             schema:
+ *               type: string
+ *
+ *   delete:
+ *     security:
+ *       - SessionAuth: []
+ *     summary: Delete the user's profile.
+ *     description: Deletes the user's profile and all associated data from the database.
+ *     responses:
+ *       204:
+ *         description: Successfully deleted profile.
+ * 
+ * /profiles/userinfo:
+ *   get:
+ *     security:
+ *       - SessionAuth: []
+ *     summary: Retrieve the user's information page.
+ *     description: Returns the user_profile.html page for the user to view and edit their personal information.
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved user information page.
+ *         content:
+ *           text/html:
+ *             schema:
+ *               type: string
+ * 
+ *   post:
+ *     security:
+ *       - SessionAuth: []
+ *     summary: Update the user's profile information.
+ *     description: Updates the user's profile information in the database.
+ *     parameters:
+ *       - in: body
+ *         name: profile
+ *         description: The updated profile details.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             username:
+ *               type: string
+ *             password:
+ *               type: string
+ *             first_name:
+ *               type: string
+ *             last_name:
+ *               type: string
+ *             street:
+ *               type: string
+ *             number:
+ *               type: string
+ *             city:
+ *               type: string
+ *             zip_code:
+ *               type: string
+ *     responses:
+ *       302:
+ *         description: Successfully updated profile and redirected to profile page.
+ *       400:
+ *         description: Username or combination of first name, last name, and street already taken.
+ * 
+ * /profiles/profilejs:
+ *   get:
+ *     security:
+ *       - SessionAuth: []
+ *     summary: Retrieve the user_profile.js script.
+ *     description: Returns the user_profile.js script for client-side profile functionality.
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved user_profile.js script.
+ *         content:
+ *           application/javascript:
+ *             schema:
+ *               type: string
+ * 
+ * /profiles/deleteaccountjs:
+ *   get:
+ *     security:
+ *       - SessionAuth: []
+ *     summary: Retrieve the delete_account.js script.
+ *     description: Returns the delete_account.js script for client-side profile deletion functionality.
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved delete_account.js script.
+ *         content:
+ *           application/javascript:
+ *             schema:
+ *               type: string
+ * 
+ * /profiles/cookiedata:
+ *   get:
+ *     security:
+ *       - SessionAuth: []
+ *     summary: Fetch the user's session data.
+ *     description: Returns a JSON object of the user's session data.
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved session data.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                 profile_id:
+ *                   type: integer
+ *                 username:
+ *                   type: string
+ *                 password:
+ *                   type: string
+ *                 first_name:
+ *                   type: string
+ *                 last_name:
+ *                   type: string
+ *                 street:
+ *                   type: string
+ *                 number:
+ *                   type: string
+ *                 city:
+ *                   type: string
+ *                 zip_code:
+ *                   type: string
+ */
 router.get('/', (req, res) => {
 	console.log(req.session.user)
 	res.sendFile(path.join(__dirname, '/profile.html'))
