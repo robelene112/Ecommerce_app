@@ -1,0 +1,150 @@
+{
+	"/orders": {
+		"get": {
+			"security": [
+				{
+					"SessionAuth": []
+				}
+			],
+			"summary": "Retrieve the orders page.",
+			"description": "Returns the orders.html page for the user to view their order history.",
+			"responses": {
+				"200": {
+					"description": "Successfully retrieved orders page.",
+					"content": {
+						"text/html": {
+							"schema": {
+								"type": "string"
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"/orders/placeorder": {
+		"get": {
+			"security": [
+				{
+					"SessionAuth": []
+				}
+			],
+			"summary": "View the place order page.",
+			"description": "Returns the place_order.html page if the user has items in their cart, otherwise returns a 404.",
+			"responses": {
+				"200": {
+					"description": "Successfully retrieved place order page.",
+					"content": {
+						"text/html": {
+							"schema": {
+								"type": "string"
+							}
+						}
+					}
+				},
+				"404": {
+					"description": "No items in the cart."
+				}
+			}
+		},
+		"post": {
+			"security": [
+				{
+					"SessionAuth": []
+				}
+			],
+			"summary": "Place an order.",
+			"description": "Places an order for all items in the user's cart and redirects to the cart page.",
+			"parameters": [
+				{
+					"in": "body",
+					"name": "order",
+					"description": "The payment method for the order.",
+					"schema": {
+						"type": "object",
+						"required": [
+							"payment_method"
+						],
+						"properties": {
+							"payment_method": {
+								"type": "string",
+								"description": "The method of payment for the order."
+							}
+						}
+					}
+				}
+			],
+			"responses": {
+				"302": {
+					"description": "Successfully placed order and redirected to cart page."
+				}
+			}
+		}
+	},
+	"/orders/getordersjs": {
+		"get": {
+			"security": [
+				{
+					"SessionAuth": []
+				}
+			],
+			"summary": "Retrieve the getOrders.js script.",
+			"description": "Returns the getOrders.js script for client-side order functionality.",
+			"responses": {
+				"200": {
+					"description": "Successfully retrieved getOrders.js script.",
+					"content": {
+						"application/javascript": {
+							"schema": {
+								"type": "string"
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"/orders/orderdata": {
+		"get": {
+			"security": [
+				{
+					"SessionAuth": []
+				}
+			],
+			"summary": "Fetch order data for the user.",
+			"description": "Returns a JSON array of the user's order data.",
+			"responses": {
+				"200": {
+					"description": "Successfully retrieved order data.",
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "array",
+								"items": {
+									"type": "object",
+									"properties": {
+										"id": {
+											"type": "integer"
+										},
+										"order_date": {
+											"type": "string"
+										},
+										"order_time": {
+											"type": "string"
+										},
+										"payment_method": {
+											"type": "string"
+										},
+										"status": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

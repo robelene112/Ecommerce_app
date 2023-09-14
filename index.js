@@ -1,9 +1,8 @@
 const express = require('express')
 const session = require('express-session')
-const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
+const combinedSwagger = require('./swagger')
 const { mountRouters } = require('./routes/index.js')
-const path = require('path')
 require('dotenv').config()
 
 // Setup express app
@@ -11,40 +10,8 @@ const app = express()
 const port = 3000
 
 // Setup documentation with swagger
-const swaggerOptions = {
-	definition: {
-		openapi: "3.0.0",
-		info: {
-			title: "Ecommerce API",
-			version: "1.0.0",
-			description: "A simple ecommerce API where users can add new products and buy eachothers products",
-		},
-		servers: [
-			{
-				url: "http://localhost:3000",
-			},
-		],
-	},
-	components: {
-		securitySchemes: {
-			SessionAuth: {  
-				type: 'apiKey',
-				in: 'cookie',
-				name: 'sessionid'  
-			}
-		}
-	},
-	apis: [
-		"./routes/cart/cart.js",
-		"./routes/orders/orders.js",
-		"./routes/products/products.js",
-		"./routes/profile/profile.js",
-		"./routes/users/users.js"
-	],
-};
-
-const swaggerDocs = swaggerJsDoc(swaggerOptions);
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use("/api-docs", swaggerUi.serve) 
+app.get("/api-docs", swaggerUi.setup(combinedSwagger))
 
 // Parse requests and populate req.body
 app.use(express.json())

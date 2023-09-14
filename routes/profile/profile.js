@@ -8,12 +8,12 @@ const router = new Router()
  * /profiles:
  *   get:
  *     security:
- *       - SessionAuth: []
- *     summary: Retrieve the user's profile page.
- *     description: Returns the profile.html page for the user to view and manage their profile.
+ *       - sessionauth: []
+ *     summary: retrieve the user's profile page.
+ *     description: returns the profile.html page for the user to view and manage their profile.
  *     responses:
  *       200:
- *         description: Successfully retrieved profile page.
+ *         description: successfully retrieved profile page.
  *         content:
  *           text/html:
  *             schema:
@@ -21,22 +21,22 @@ const router = new Router()
  *
  *   delete:
  *     security:
- *       - SessionAuth: []
- *     summary: Delete the user's profile.
- *     description: Deletes the user's profile and all associated data from the database.
+ *       - sessionauth: []
+ *     summary: delete the user's profile.
+ *     description: deletes the user's profile and all associated data from the database.
  *     responses:
  *       204:
- *         description: Successfully deleted profile.
+ *         description: successfully deleted profile.
  * 
  * /profiles/userinfo:
  *   get:
  *     security:
- *       - SessionAuth: []
- *     summary: Retrieve the user's information page.
- *     description: Returns the user_profile.html page for the user to view and edit their personal information.
+ *       - sessionauth: []
+ *     summary: retrieve the user's information page.
+ *     description: returns the user_profile.html page for the user to view and edit their personal information.
  *     responses:
  *       200:
- *         description: Successfully retrieved user information page.
+ *         description: successfully retrieved user information page.
  *         content:
  *           text/html:
  *             schema:
@@ -44,13 +44,13 @@ const router = new Router()
  * 
  *   post:
  *     security:
- *       - SessionAuth: []
- *     summary: Update the user's profile information.
- *     description: Updates the user's profile information in the database.
+ *       - sessionauth: []
+ *     summary: update the user's profile information.
+ *     description: updates the user's profile information in the database.
  *     parameters:
  *       - in: body
  *         name: profile
- *         description: The updated profile details.
+ *         description: the updated profile details.
  *         schema:
  *           type: object
  *           properties:
@@ -72,19 +72,19 @@ const router = new Router()
  *               type: string
  *     responses:
  *       302:
- *         description: Successfully updated profile and redirected to profile page.
+ *         description: successfully updated profile and redirected to profile page.
  *       400:
- *         description: Username or combination of first name, last name, and street already taken.
+ *         description: username or combination of first name, last name, and street already taken.
  * 
  * /profiles/profilejs:
  *   get:
  *     security:
- *       - SessionAuth: []
- *     summary: Retrieve the user_profile.js script.
- *     description: Returns the user_profile.js script for client-side profile functionality.
+ *       - sessionauth: []
+ *     summary: retrieve the user_profile.js script.
+ *     description: returns the user_profile.js script for client-side profile functionality.
  *     responses:
  *       200:
- *         description: Successfully retrieved user_profile.js script.
+ *         description: successfully retrieved user_profile.js script.
  *         content:
  *           application/javascript:
  *             schema:
@@ -93,12 +93,12 @@ const router = new Router()
  * /profiles/deleteaccountjs:
  *   get:
  *     security:
- *       - SessionAuth: []
- *     summary: Retrieve the delete_account.js script.
- *     description: Returns the delete_account.js script for client-side profile deletion functionality.
+ *       - sessionauth: []
+ *     summary: retrieve the delete_account.js script.
+ *     description: returns the delete_account.js script for client-side profile deletion functionality.
  *     responses:
  *       200:
- *         description: Successfully retrieved delete_account.js script.
+ *         description: successfully retrieved delete_account.js script.
  *         content:
  *           application/javascript:
  *             schema:
@@ -107,12 +107,12 @@ const router = new Router()
  * /profiles/cookiedata:
  *   get:
  *     security:
- *       - SessionAuth: []
- *     summary: Fetch the user's session data.
- *     description: Returns a JSON object of the user's session data.
+ *       - sessionauth: []
+ *     summary: fetch the user's session data.
+ *     description: returns a json object of the user's session data.
  *     responses:
  *       200:
- *         description: Successfully retrieved session data.
+ *         description: successfully retrieved session data.
  *         content:
  *           application/json:
  *             schema:
