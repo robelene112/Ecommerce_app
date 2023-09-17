@@ -1,11 +1,7 @@
 {
 	"/cart": {
 		"get": {
-			"security": [
-				{
-					"SessionAuth": []
-				}
-			],
+			"tags": ["Cart"],
 			"summary": "Retrieve the cart page.",
 			"description": "Returns the cart.html page for the user to view their cart contents.",
 			"responses": {
@@ -22,11 +18,7 @@
 			}
 		},
 		"post": {
-			"security": [
-				{
-					"SessionAuth": []
-				}
-			],
+			"tags": ["Cart"],
 			"summary": "Add a product to the cart.",
 			"description": "Adds a specified product and amount to the user's cart.",
 			"parameters": [
@@ -63,11 +55,7 @@
 			}
 		},
 		"put": {
-			"security": [
-				{
-					"SessionAuth": []
-				}
-			],
+			"tags": ["Cart"],
 			"summary": "Update the amount of a product in the cart.",
 			"description": "Updates or removes a product from the cart based on the specified amount.",
 			"parameters": [
@@ -106,11 +94,7 @@
 			}
 		},
 		"delete": {
-			"security": [
-				{
-					"SessionAuth": []
-				}
-			],
+			"tags": ["Cart"],
 			"summary": "Clear the entire cart.",
 			"description": "Removes all products from the user's cart.",
 			"parameters": [

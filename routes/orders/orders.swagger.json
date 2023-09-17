@@ -1,11 +1,7 @@
 {
 	"/orders": {
 		"get": {
-			"security": [
-				{
-					"SessionAuth": []
-				}
-			],
+			"tags": ["Orders"],
 			"summary": "Retrieve the orders page.",
 			"description": "Returns the orders.html page for the user to view their order history.",
 			"responses": {
@@ -24,11 +20,7 @@
 	},
 	"/orders/placeorder": {
 		"get": {
-			"security": [
-				{
-					"SessionAuth": []
-				}
-			],
+			"tags": ["Orders"],
 			"summary": "View the place order page.",
 			"description": "Returns the place_order.html page if the user has items in their cart, otherwise returns a 404.",
 			"responses": {
@@ -48,11 +40,7 @@
 			}
 		},
 		"post": {
-			"security": [
-				{
-					"SessionAuth": []
-				}
-			],
+			"tags": ["Orders"],
 			"summary": "Place an order.",
 			"description": "Places an order for all items in the user's cart and redirects to the cart page.",
 			"parameters": [
@@ -83,11 +71,7 @@
 	},
 	"/orders/getordersjs": {
 		"get": {
-			"security": [
-				{
-					"SessionAuth": []
-				}
-			],
+			"tags": ["Orders"],
 			"summary": "Retrieve the getOrders.js script.",
 			"description": "Returns the getOrders.js script for client-side order functionality.",
 			"responses": {
@@ -106,11 +90,7 @@
 	},
 	"/orders/orderdata": {
 		"get": {
-			"security": [
-				{
-					"SessionAuth": []
-				}
-			],
+			"tags": ["Orders"],
 			"summary": "Fetch order data for the user.",
 			"description": "Returns a JSON array of the user's order data.",
 			"responses": {

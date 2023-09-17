@@ -1,11 +1,7 @@
 {
 	"/profiles": {
 		"get": {
-			"security": [
-				{
-					"sessionauth": []
-				}
-			],
+			"tags": ["Profiles"],
 			"summary": "retrieve the user's profile page.",
 			"description": "returns the profile.html page for the user to view and manage their profile.",
 			"responses": {
@@ -22,11 +18,7 @@
 			}
 		},
 		"delete": {
-			"security": [
-				{
-					"sessionauth": []
-				}
-			],
+			"tags": ["Profiles"],
 			"summary": "delete the user's profile.",
 			"description": "deletes the user's profile and all associated data from the database.",
 			"responses": {
@@ -38,11 +30,7 @@
 	},
 	"/profiles/userinfo": {
 		"get": {
-			"security": [
-				{
-					"sessionauth": []
-				}
-			],
+			"tags": ["Profiles"],
 			"summary": "retrieve the user's information page.",
 			"description": "returns the user_profile.html page for the user to view and edit their personal information.",
 			"responses": {
@@ -59,11 +47,7 @@
 			}
 		},
 		"post": {
-			"security": [
-				{
-					"sessionauth": []
-				}
-			],
+			"tags": ["Profiles"],
 			"summary": "update the user's profile information.",
 			"description": "updates the user's profile information in the database.",
 			"parameters": [
@@ -114,11 +98,7 @@
 	},
 	"/profiles/profilejs": {
 		"get": {
-			"security": [
-				{
-					"sessionauth": []
-				}
-			],
+			"tags": ["Profiles"],
 			"summary": "retrieve the user_profile.js script.",
 			"description": "returns the user_profile.js script for client-side profile functionality.",
 			"responses": {
@@ -137,11 +117,7 @@
 	},
 	"/profiles/deleteaccountjs": {
 		"get": {
-			"security": [
-				{
-					"sessionauth": []
-				}
-			],
+			"tags": ["Profiles"],
 			"summary": "retrieve the delete_account.js script.",
 			"description": "returns the delete_account.js script for client-side profile deletion functionality.",
 			"responses": {
@@ -160,11 +136,7 @@
 	},
 	"/profiles/cookiedata": {
 		"get": {
-			"security": [
-				{
-					"sessionauth": []
-				}
-			],
+			"tags": ["Profiles"],
 			"summary": "fetch the user's session data.",
 			"description": "returns a json object of the user's session data.",
 			"responses": {

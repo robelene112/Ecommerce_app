@@ -1,6 +1,7 @@
 {
 	"/users": {
 		"get": {
+			"tags": ["Users"],
 			"summary": "Log out and retrieve the login page.",
 			"description": "Destroys the user's session and returns the login.html page.",
 			"responses": {
@@ -17,6 +18,7 @@
 			}
 		},
 		"post": {
+			"tags": ["Users"],
 			"summary": "Authenticate and log in a user.",
 			"description": "Authenticates the user based on the provided username and password, then redirects to the user's profile.",
 			"parameters": [
@@ -55,6 +57,7 @@
 	},
 	"/users/register": {
 		"get": {
+			"tags": ["Users"],
 			"summary": "Retrieve the user registration page.",
 			"description": "Returns the register.html page for new users to register.",
 			"responses": {
@@ -71,6 +74,7 @@
 			}
 		},
 		"post": {
+			"tags": ["Users"],
 			"summary": "Register a new user.",
 			"description": "Registers a new user based on the provided details and redirects to the login page.",
 			"parameters": [

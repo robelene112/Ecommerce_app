@@ -1,11 +1,7 @@
 {
 	"/products": {
 		"get": {
-			"security": [
-				{
-					"SessionAuth": []
-				}
-			],
+			"tags": ["Products"],
 			"summary": "Retrieve the products page.",
 			"description": "Returns the products.html page for the user to view and manage their products.",
 			"responses": {
@@ -22,11 +18,7 @@
 			}
 		},
 		"delete": {
-			"security": [
-				{
-					"SessionAuth": []
-				}
-			],
+			"tags": ["Products"],
 			"summary": "Delete a product.",
 			"description": "Deletes a specified product from the database.",
 			"parameters": [
@@ -57,11 +49,7 @@
 	},
 	"/products/create": {
 		"get": {
-			"security": [
-				{
-					"SessionAuth": []
-				}
-			],
+			"tags": ["Products"],
 			"summary": "View the create product page.",
 			"description": "Returns the create_product.html page for the user to add a new product.",
 			"responses": {
@@ -78,11 +66,7 @@
 			}
 		},
 		"post": {
-			"security": [
-				{
-					"SessionAuth": []
-				}
-			],
+			"tags": ["Products"],
 			"summary": "Create a new product.",
 			"description": "Adds a new product to the database.",
 			"parameters": [
@@ -120,11 +104,7 @@
 		},
 		"/products/browse": {
 			"get": {
-				"security": [
-					{
-						"SessionAuth": []
-					}
-				],
+			"tags": ["Products"],
 				"summary": "View the browse products page.",
 				"description": "Returns the browse_product.html page for the user to browse available products.",
 				"responses": {
@@ -143,11 +123,7 @@
 		},
 		"/products/edit": {
 			"get": {
-				"security": [
-					{
-						"SessionAuth": []
-					}
-				],
+			"tags": ["Products"],
 				"summary": "View the edit product page.",
 				"description": "Returns the edit_product.html page for the user to edit their products.",
 				"responses": {
@@ -164,11 +140,7 @@
 				}
 			},
 			"post": {
-				"security": [
-					{
-						"SessionAuth": []
-					}
-				],
+			"tags": ["Products"],
 				"summary": "Edit a product.",
 				"description": "Edits the details of a specified product in the database.",
 				"parameters": [
@@ -217,11 +189,7 @@
 			},
 			"/products/editjs": {
 				"get": {
-					"security": [
-						{
-							"SessionAuth": []
-						}
-					],
+				"tags": ["Products"],
 					"summary": "Retrieve the editProducts.js script.",
 					"description": "Returns the editProducts.js script for client-side product editing functionality.",
 					"responses": {
@@ -240,11 +208,7 @@
 			},
 			"/products/productsjs": {
 				"get": {
-					"security": [
-						{
-							"SessionAuth": []
-						}
-					],
+				"tags": ["Products"],
 					"summary": "Retrieve the getProducts.js script.",
 					"description": "Returns the getProducts.js script for client-side product functionality.",
 					"responses": {
@@ -263,11 +227,7 @@
 			},
 			"/products/browsejs": {
 				"get": {
-					"security": [
-						{
-							"SessionAuth": []
-						}
-					],
+				"tags": ["Products"],
 					"summary": "Retrieve the browseProducts.js script.",
 					"description": "Returns the browseProducts.js script for client-side product browsing functionality.",
 					"responses": {
@@ -286,11 +246,7 @@
 			},
 			"/products/productdata": {
 				"get": {
-					"security": [
-						{
-							"SessionAuth": []
-						}
-					],
+				"tags": ["Products"],
 					"summary": "Fetch product data for the user.",
 					"description": "Returns a JSON array of the user's product data.",
 					"responses": {
@@ -323,11 +279,7 @@
 			},
 			"/products/allproductdata": {
 				"get": {
-					"security": [
-						{
-							"SessionAuth": []
-						}
-					],
+				"tags": ["Products"],
 					"summary": "Fetch all available product data.",
 					"description": "Returns a JSON array of all available products, excluding those created by the user"
 				}

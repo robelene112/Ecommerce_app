@@ -17,15 +17,6 @@ const swaggerOptions = {
 			url: "http://localhost:3000",
 		},
 	],
-	components: {
-		securitySchemes: {
-			SessionAuth: {
-				type: 'apiKey',
-				in: 'cookie',
-				name: 'sessionid'
-			}
-		}
-	},
 	apis: [
 		"./routes/cart/cart.js",
 		"./routes/orders/orders.js",
