@@ -29,7 +29,7 @@ app.use(session({
 		maxAge: 1000 * 60 * 60 * 24 * 7, // Cookie expires in a week
 		secure: false,           // Cookies are not solely sent through HTTPS
 		httpOnly: false,		// The cookie can only be accessed by the server
-		sameSite: 'none'        // Ensure cookies work cross-site
+		sameSite: true        // Ensure cookies work cross-site
 	}
 }))
 
